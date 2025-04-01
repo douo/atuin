@@ -23,6 +23,11 @@
 </p>
 
 
+# Personal Tweak
+
+- Ctrl+k: kill-line (merged from https://github.com/atuinsh/atuin/pull/1716)
+
+
 [English] | [简体中文]
 
 
