@@ -187,6 +187,10 @@ impl Cursor {
         if self.left() { self.remove() } else { None }
     }
 
+    pub fn truncate(&mut self) {
+        self.source.truncate(self.index);
+    }
+
     pub fn clear(&mut self) {
         self.source.clear();
         self.index = 0;
