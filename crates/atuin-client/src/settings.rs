@@ -30,6 +30,8 @@ pub const HOST_ID_FILENAME: &str = "host_id";
 static EXAMPLE_CONFIG: &str = include_str!("../config.toml");
 
 mod dotfiles;
+mod kv;
+mod scripts;
 
 #[derive(Clone, Debug, Deserialize, Copy, ValueEnum, PartialEq, Serialize)]
 pub enum SearchMode {
@@ -292,6 +294,7 @@ impl Stats {
             "git",
             "go",
             "ip",
+            "jj",
             "kubectl",
             "nix",
             "nmcli",
@@ -515,6 +518,12 @@ pub struct Settings {
 
     #[serde(default)]
     pub theme: Theme,
+
+    #[serde(default)]
+    pub scripts: scripts::Settings,
+
+    #[serde(default)]
+    pub kv: kv::Settings,
 }
 
 impl Settings {
@@ -731,6 +740,8 @@ impl Settings {
         let data_dir = atuin_common::utils::data_dir();
         let db_path = data_dir.join("history.db");
         let record_store_path = data_dir.join("records.db");
+        let kv_path = data_dir.join("kv.db");
+        let scripts_path = data_dir.join("scripts.db");
         let socket_path = atuin_common::utils::runtime_dir().join("atuin.sock");
 
         let key_path = data_dir.join("key");
@@ -794,6 +805,8 @@ impl Settings {
             .set_default("daemon.socket_path", socket_path.to_str())?
             .set_default("daemon.systemd_socket", false)?
             .set_default("daemon.tcp_port", 8889)?
+            .set_default("kv.db_path", kv_path.to_str())?
+            .set_default("scripts.db_path", scripts_path.to_str())?
             .set_default(
                 "search.filters",
                 vec!["global", "host", "session", "workspace", "directory"],
