@@ -10,4 +10,5 @@ publish.sh
 
 ui/backend/target
 ui/backend/gen
-.aider*
+
+sqlite-server.db*
